@@ -181,20 +181,55 @@ components:
       title: User
       type: object
       description: ''
-      x-examples:
-        Alice Smith:
-          id: 142
-          firstName: Alice
-          lastName: Smith
-          email: alice.smith@gmail.com
-          dateOfBirth: '1997-10-31'
-          emailVerified: true
-          signUpDate: '2019-08-24'
+      x-examples: {}
       properties:
         username:
           type: string
-        password:
+        name:
+          type: string
+        phone:
+          type: string
+        type:
+          type: string
+        email_authenticated:
+          type: string
+        email_token:
+          type: string
+        school:
+          type: string
+        grade:
+          type: string
+        recently_searched:
+          type: string
+        interested_majors:
+          type: string
+        payments:
+          type: string
+        books:
+          type: string
+        provider:
+          type: string
+        provided_data:
+          type: string
+        created:
+          type: string
+        updated:
+          type: string
+        deleted:
+          type: string
+        drop_out_reasons:
+          type: string
+        marketing_agreed:
+          type: string
+        route:
+          type: string
+        position:
+          type: string
+        interested_categories:
+          type: string
+        gender:
+          type: string
+        is_staff:
           type: string
       required:
         - username
-        - password
