@@ -71,7 +71,7 @@ paths:
         description: Patch user properties to update.
   /users:
     post:
-      summary: Create New User
+      summary: Register / 회원가입
       operationId: post-user
       responses:
         '201':
@@ -88,45 +88,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                password:
-                  type: string
-                name:
-                  type: string
-                phone:
-                  type: string
-                type:
-                  type: string
-                email:
-                  type: string
-                school_id:
-                  type: number
-                grade:
-                  type: number
-                route:
-                  type: object
-                  properties:
-                    id:
-                      type: number
-                    value:
-                      type: string
-                position:
-                  type: object
-                  properties:
-                    id:
-                      type: number
-                    value:
-                      type: string
-                gender:
-                  type: string
-                marketing_agreed:
-                  type: boolean
-              required:
-                - username
-                - password
+              $ref: '#/components/schemas/RegistrationPayload'
         description: Post the necessary fields for the API to create a new user.
       description: Create a new user.
     parameters: []
@@ -192,3 +154,37 @@ components:
       required:
         - username
         - password
+    RegistrationPayload:
+      title: RegistrationPayload
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        type:
+          type: string
+        school_id:
+          type: string
+        grade:
+          type: string
+        provider:
+          type: string
+        provided_data:
+          type: string
+        route:
+          type: string
+        position:
+          type: string
+        interested_categories:
+          type: string
+        gender:
+          type: string
+        marketingAgreed:
+          type: string
