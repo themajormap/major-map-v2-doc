@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: schools
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8000/api'
+paths:
+  /schools:
+    get:
+      summary: School List
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/School'
+      operationId: get-schools
+components:
+  schemas:
+    School:
+      title: School
+      type: object
+      description: ''
+      x-examples: {}
+      properties:
+        name:
+          type: string
+        area:
+          type: string
+        office1:
+          type: string
+        office2:
+          type: string
+        official_code:
+          type: string
+        school_type_code:
+          type: string
+        establish_type:
+          type: string
+        property:
+          type: string
+        address:
+          type: string
+        codeducation:
+          type: string
