@@ -23,16 +23,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-              examples:
-                Get User Alice Smith:
-                  value:
-                    id: 142
-                    firstName: Alice
-                    lastName: Smith
-                    email: alice.smith@gmail.com
-                    dateOfBirth: '1997-10-31'
-                    emailVerified: true
-                    signUpDate: '2019-08-24'
         '404':
           description: User Not Found
       operationId: get-users-userId
@@ -47,16 +37,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-              examples:
-                Updated User Rebecca Baker:
-                  value:
-                    id: 13
-                    firstName: Rebecca
-                    lastName: Baker
-                    email: rebecca@gmail.com
-                    dateOfBirth: '1985-10-02'
-                    emailVerified: false
-                    createDate: '2019-08-24'
         '404':
           description: User Not Found
         '409':
@@ -100,16 +80,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-              examples:
-                New User Bob Fellow:
-                  value:
-                    id: 12
-                    firstName: Bob
-                    lastName: Fellow
-                    email: bob.fellow@gmail.com
-                    dateOfBirth: '1996-08-24'
-                    emailVerified: false
-                    createDate: '2020-11-18'
         '400':
           description: Missing Required Information
         '409':
@@ -157,21 +127,6 @@ paths:
               required:
                 - username
                 - password
-            examples:
-              Blank Schema:
-                value:
-                  username: ''
-                  password: ''
-                  name: ''
-                  phone: ''
-                  type: ''
-                  email: ''
-                  school: null
-                  grade: null
-                  route: {}
-                  position: {}
-                  gender: ''
-                  marketing_agreed: null
         description: Post the necessary fields for the API to create a new user.
       description: Create a new user.
     parameters: []
@@ -185,6 +140,9 @@ components:
       properties:
         username:
           type: string
+        password:
+          type: string
+          writeOnly: true
         name:
           type: string
         phone:
@@ -233,3 +191,4 @@ components:
           type: string
       required:
         - username
+        - password
