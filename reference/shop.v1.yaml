@@ -19,7 +19,21 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentSerializer'
       description: 주어진 orderId에 해당하는 주문 건에 "NO PAYMENT" 상태의 신규 결제 객체를 생성함.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                method:
+                  type: string
+              required:
+                - method
   /orders:
     post:
       summary: 신규 주문 생성
@@ -30,8 +44,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties: {}
+                $ref: '#/components/schemas/OrderSerialier'
         '400':
           description: Bad Request
         '401':
@@ -42,15 +55,11 @@ paths:
         content:
           application/json:
             schema:
+              $ref: '#/components/schemas/OrderSerialier'
+          application/xml:
+            schema:
               type: object
-              properties:
-                items:
-                  type: object
-                  properties:
-                    product:
-                      type: number
-                    amount:
-                      type: number
+              properties: {}
         description: |
           items
           - product: 서버에 저장된 Product 모델의 id
@@ -68,10 +77,29 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentSerializer'
       description: |-
         아임포트 승인 결과를 전송하고 검증하여 결제 객체의 결제 상태를 PAID로 바꿈.
 
         아임포트 서버와 연동하여 결제 내용을 검증하는 로직은 구현이 필요함.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imp_uid:
+                  type: string
+                apply_num:
+                  type: string
+                extras:
+                  type: string
+              required:
+                - imp_uid
+                - apply_num
 components:
   schemas:
     ProductSerializer:
@@ -105,8 +133,10 @@ components:
       properties:
         id:
           type: integer
+          readOnly: true
         owner_id:
           type: integer
+          readOnly: true
         items:
           type: array
           items:
@@ -121,6 +151,7 @@ components:
       properties:
         id:
           type: integer
+          readOnly: true
         product_id:
           type: integer
         amount:
@@ -129,3 +160,26 @@ components:
         - id
         - product_id
         - amount
+    PaymentSerializer:
+      title: PaymentSerializer
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        order_id:
+          type: integer
+          readOnly: true
+        amount:
+          type: integer
+        method:
+          type: string
+        status:
+          type: string
+          readOnly: true
+        apply_num:
+          type: string
+        imp_uid:
+          type: string
+        extras:
+          type: object
