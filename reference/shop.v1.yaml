@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  title: shop
+  version: '1.0'
+  description: 학과계열선정검사 등 온라인 상품 판매를 위한 API
+servers:
+  - url: 'http://localhost:3000/api/shop'
+paths:
+  '/orders/{orderId}/start-payment':
+    parameters:
+      - schema:
+          type: string
+        name: orderId
+        in: path
+        required: true
+    post:
+      summary: 신규 결제 생성 (NO PAYMENT 상태)
+      operationId: shop-start-payment
+      responses:
+        '200':
+          description: OK
+      description: 주어진 orderId에 해당하는 주문 건에 "NO PAYMENT" 상태의 신규 결제 객체를 생성함.
+  /orders:
+    post:
+      summary: 신규 주문 생성
+      operationId: post-orders
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: object
+                  properties:
+                    product:
+                      type: number
+                    amount:
+                      type: number
+        description: |
+          items
+          - product: 서버에 저장된 Product 모델의 id
+          - amount: 장바구니에 담긴 해당 Product의 수량
+  '/orders/{ordeId}/finish-payment':
+    parameters:
+      - schema:
+          type: string
+        name: ordeId
+        in: path
+        required: true
+    post:
+      summary: 결제 정보 입력
+      operationId: shop-finish-payment
+      responses:
+        '200':
+          description: OK
+      description: |-
+        아임포트 승인 결과를 전송하고 검증하여 결제 객체의 결제 상태를 PAID로 바꿈.
+
+        아임포트 서버와 연동하여 결제 내용을 검증하는 로직은 구현이 필요함.
+components:
+  schemas:
+    ProductSerializer:
+      title: ProductSerializer
+      type: object
+      description: |-
+        온라인 판매용 상품.
+        deleted 가 null 이 아닌 경우 판매중인 상품으로 간주함.
+
+        id 값을 일관성 있게 유지하기 위해 당분간 DB에는 직접 값을 입력하도록 한다.
+
+        Product ID 1: 학과계열선정검사
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+      required:
+        - id
+        - name
+        - price
+    OrderSerialier:
+      title: OrderSerializer
+      type: object
+      description: |
+        고객이 생성한 주문.
+      properties:
+        id:
+          type: integer
+        owner_id:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItemSerializer'
+      required:
+        - id
+        - owner_id
+        - items
+    OrderItemSerializer:
+      title: OrderItemSerializer
+      type: object
+      properties:
+        id:
+          type: integer
+        product_id:
+          type: integer
+        amount:
+          type: integer
+      required:
+        - id
+        - product_id
+        - amount
